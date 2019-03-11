@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: 2019-03-04T14:16:36Z
+  name: micollab-service
+  namespace: default
+  resourceVersion: "560683"
+  selfLink: /api/v1/namespaces/default/services/micollab-service
+  uid: 1ed505e2-3e88-11e9-8d61-42010a8000fb
+spec:
+  clusterIP: 10.27.244.56
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: 80-to-80-tcp
+    nodePort: 30398
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: 443-to-443-tcp
+    nodePort: 31092
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  - name: 22-to-22-tcp
+    nodePort: 32517
+    port: 22
+    protocol: TCP
+    targetPort: 22
+  - name: 36008-to-36008-tcp
+    nodePort: 31564
+    port: 36008
+    protocol: TCP
+    targetPort: 36008
+  - name: 4443-to-4443-tcp
+    nodePort: 30697
+    port: 4443
+    protocol: TCP
+    targetPort: 4443
+  - name: 7050-to-7050-tcp
+    nodePort: 30698
+    port: 7050
+    protocol: TCP
+    targetPort: 7050
+  selector:
+    run: my-micollab
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 35.188.167.156

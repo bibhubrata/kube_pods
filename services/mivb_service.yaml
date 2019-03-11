@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: 2019-03-01T20:17:32Z
+  name: mivb-9-1-0-14-service
+  namespace: default
+  resourceVersion: "812648"
+  selfLink: /api/v1/namespaces/default/services/mivb-9-1-0-14-service
+  uid: 0bd93e57-3c5f-11e9-9ffa-42010a800047
+spec:
+  clusterIP: 10.27.253.29
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: 35.222.98.62
+  ports:
+  - name: 22-to-22-tcp
+    nodePort: 32331
+    port: 22
+    protocol: TCP
+    targetPort: 22
+  - name: 80-to-80-tcp
+    nodePort: 31410
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: 443-to-443-tcp
+    nodePort: 31346
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  - name: 5320-to-5320-tcp
+    nodePort: 32227
+    port: 5320
+    protocol: TCP
+    targetPort: 5320
+  selector:
+    run: my-mivb-9-1-0-14
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 35.222.98.62

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: 2019-03-06T19:16:56Z
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: pgdata-claim
+  namespace: default
+  resourceVersion: "1007228"
+  selfLink: /api/v1/namespaces/default/persistentvolumeclaims/pgdata-claim
+  uid: 685eb7ce-4044-11e9-8d61-42010a8000fb
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  selector:
+    matchLabels:
+      app: postgres
+  storageClassName: standard
+  volumeName: mbg-pgdata
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 20Gi
+  phase: Bound

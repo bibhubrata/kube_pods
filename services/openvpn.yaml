@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"openvpn":"35.184.77.197"},"name":"openvpn","namespace":"default"},"spec":{"ports":[{"port":1194,"protocol":"TCP","targetPort":1194}],"selector":{"openvpn":"35.184.77.197"},"type":"NodePort"}}
+  creationTimestamp: 2019-03-07T20:48:44Z
+  labels:
+    openvpn: 35.184.77.197
+  name: openvpn
+  namespace: default
+  resourceVersion: "1225165"
+  selfLink: /api/v1/namespaces/default/services/openvpn
+  uid: 65de3468-411a-11e9-8d61-42010a8000fb
+spec:
+  clusterIP: 10.27.241.164
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 32217
+    port: 1194
+    protocol: TCP
+    targetPort: 1194
+  selector:
+    openvpn: 35.184.77.197
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

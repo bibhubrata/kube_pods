@@ -1,0 +1,148 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2019-03-07T21:17:41Z
+  generation: 1
+  labels:
+    openvpn: 35.184.77.197
+  name: openvpn
+  namespace: default
+  resourceVersion: "1225191"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/openvpn
+  uid: 710f60a8-411e-11e9-8d61-42010a8000fb
+spec:
+  progressDeadlineSeconds: 2147483647
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      openvpn: 35.184.77.197
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "9176"
+        prometheus.io/scrape: "true"
+      creationTimestamp: null
+      labels:
+        openvpn: 35.184.77.197
+    spec:
+      containers:
+      - env:
+        - name: PODIPADDR
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: OVPN_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              key: serverurl
+              name: openvpn-settings
+        - name: OVPN_K8S_SERVICE_NETWORK
+          valueFrom:
+            configMapKeyRef:
+              key: servicecidr
+              name: openvpn-settings
+        - name: OVPN_K8S_POD_NETWORK
+          valueFrom:
+            configMapKeyRef:
+              key: podcidr
+              name: openvpn-settings
+        - name: OVPN_K8S_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              key: domain
+              name: openvpn-settings
+        - name: OVPN_STATUS
+          valueFrom:
+            configMapKeyRef:
+              key: statusfile
+              name: openvpn-settings
+        image: quay.io/plange/openvpn:latest
+        imagePullPolicy: Always
+        name: openvpn
+        ports:
+        - containerPort: 1194
+          name: openvpn
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/openvpn/pki
+          name: openvpn-pki
+        - mountPath: /etc/openvpn/crl
+          name: openvpn-crl
+        - mountPath: /etc/openvpn/ccd
+          name: openvpn-ccd
+        - mountPath: /etc/openvpn/portmapping
+          name: openvpn-portmapping
+        - mountPath: /etc/openvpn/status
+          name: openvpn-status
+      - image: quay.io/plange/openvpn_exporter:latest
+        imagePullPolicy: Always
+        name: metrics
+        ports:
+        - containerPort: 9176
+          name: openvpn
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/openvpn_exporter/
+          name: openvpn-status
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 60
+      volumes:
+      - name: openvpn-pki
+        secret:
+          defaultMode: 256
+          secretName: openvpn-pki
+      - configMap:
+          defaultMode: 420
+          name: openvpn-ccd
+        name: openvpn-ccd
+      - configMap:
+          defaultMode: 365
+          name: openvpn-crl
+        name: openvpn-crl
+      - configMap:
+          defaultMode: 420
+          name: openvpn-portmapping
+        name: openvpn-portmapping
+      - emptyDir: {}
+        name: openvpn-status
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2019-03-07T21:17:41Z
+    lastUpdateTime: 2019-03-07T21:17:41Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

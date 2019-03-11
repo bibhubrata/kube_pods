@@ -1,0 +1,71 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2019-03-06T15:50:05Z
+  generation: 1
+  name: micollab
+  namespace: default
+  resourceVersion: "976957"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/micollab
+  uid: 83074963-4027-11e9-8d61-42010a8000fb
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      run: my-micollab
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: my-micollab
+    spec:
+      containers:
+      - image: gcr.io/symphony-231521/micollab
+        imagePullPolicy: Always
+        name: micollab-tenant
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities:
+            add:
+            - ALL
+          privileged: true
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        micollab-label: micollab-node
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2019-03-06T15:50:07Z
+    lastUpdateTime: 2019-03-06T15:50:07Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2019-03-06T15:50:05Z
+    lastUpdateTime: 2019-03-06T15:50:07Z
+    message: ReplicaSet "micollab-589d79d797" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

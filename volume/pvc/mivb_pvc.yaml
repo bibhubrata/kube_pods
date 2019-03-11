@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: 2019-03-01T16:14:46Z
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: mivb-volumeclaim
+  namespace: default
+  resourceVersion: "3322"
+  selfLink: /api/v1/namespaces/default/persistentvolumeclaims/mivb-volumeclaim
+  uid: 215bacfa-3c3d-11e9-9ffa-42010a800047
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+  volumeName: mivb-sibel-pv
+status:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  phase: Bound
