@@ -1,0 +1,81 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: micollabstorage
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: etc-esmith-pvc 
+spec:
+  resources:
+    requests:
+      storage: 20Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: micollabstorage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-esmith-pvc 
+spec:
+  resources:
+    requests:
+      storage: 20Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: micollabstorage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sbin-esmith-pvc 
+spec:
+  resources:
+    requests:
+      storage: 20Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: micollabstorage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opt-intertel-pvc 
+spec:
+  resources:
+    requests:
+      storage: 20Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: micollabstorage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pgsql-pvc 
+spec:
+  resources:
+    requests:
+      storage: 30Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: micollabstorage
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logs-pvc 
+spec:
+  resources:
+    requests:
+      storage: 30Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: micollabstorage
+---
+
